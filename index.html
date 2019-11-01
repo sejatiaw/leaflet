@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/wiayahpenelitian_1.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-7.2277631128047,110.03417364451735],[-6.849504704557228,110.72840342406636]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_GoogleImagery_0 = L.tileLayer('http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 1,
+            maxNativeZoom: 40
+        });
+        layer_GoogleImagery_0;
+        map.addLayer(layer_GoogleImagery_0);
+        function pop_wiayahpenelitian_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KECAMATAN'] !== null ? Autolinker.link(String(feature.properties['KECAMATAN'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KABUPATEN'] !== null ? Autolinker.link(String(feature.properties['KABUPATEN'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_wiayahpenelitian_1_0(feature) {
+            switch(String(feature.properties['KECAMATAN'])) {
+                case 'Bergas':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(86,232,33,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Boja':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,226,29,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kaliwungu':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(220,162,96,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kota Semarang':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(181,85,216,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Mranggen':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(28,112,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pringapus':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(221,58,170,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Sayung':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,96,106,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Ungaran Barat':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,203,95,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Ungaran Timur':
+                    return {
+                pane: 'pane_wiayahpenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(84,64,214,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_wiayahpenelitian_1');
+        map.getPane('pane_wiayahpenelitian_1').style.zIndex = 401;
+        map.getPane('pane_wiayahpenelitian_1').style['mix-blend-mode'] = 'normal';
+        var layer_wiayahpenelitian_1 = new L.geoJson(json_wiayahpenelitian_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_wiayahpenelitian_1',
+            layerName: 'layer_wiayahpenelitian_1',
+            pane: 'pane_wiayahpenelitian_1',
+            onEachFeature: pop_wiayahpenelitian_1,
+            style: style_wiayahpenelitian_1_0,
+        });
+        bounds_group.addLayer(layer_wiayahpenelitian_1);
+        map.addLayer(layer_wiayahpenelitian_1);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'wiayahpenelitian<br /><table><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_Bergas0.png" /></td><td>Bergas</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_Boja1.png" /></td><td>Boja</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_Kaliwungu2.png" /></td><td>Kaliwungu</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_KotaSemarang3.png" /></td><td>Kota Semarang</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_Mranggen4.png" /></td><td>Mranggen</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_Pringapus5.png" /></td><td>Pringapus</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_Sayung6.png" /></td><td>Sayung</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_UngaranBarat7.png" /></td><td>Ungaran Barat</td></tr><tr><td style="text-align: center;"><img src="legend/wiayahpenelitian_1_UngaranTimur8.png" /></td><td>Ungaran Timur</td></tr></table>': layer_wiayahpenelitian_1,"Google Imagery": layer_GoogleImagery_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
